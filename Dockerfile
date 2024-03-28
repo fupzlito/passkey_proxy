@@ -5,7 +5,7 @@ ADD . /opt/src
 RUN go build -o /opt/webauthn_proxy .
 
 
-FROM alpine:3.16
+FROM alpine:3.19
 
 WORKDIR /opt
 ADD config /opt/config
