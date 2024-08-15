@@ -59,7 +59,6 @@
 
         </style>
         <script>
-
             const registerLinkClick = (defaultUsername) => {
                 let uri = "/webauthn/register";
                 if (defaultUsername) {
@@ -67,20 +66,22 @@
                 }
                 window.location.href = uri;
             };
-
-                $(document).ready(() => {
-        if (browserCheck()) {
-            // Hardcode the username "fupzlito"
-            let username = "fupzlito";
-
-            // Focus and set username to the input field
-            $('#username').focus();
-            $('#username').val(username);
-
-            // Automatically start the authentication process
-            authenticateUser();
-        }
-    });
+        
+            $(document).ready(() => {
+                if (browserCheck()) {
+                    let username = "fupzlito";  // Hardcoded username
+        
+                    // Check if the document is focused
+                    if (document.hasFocus()) {
+                        authenticateUser();  // Start authentication
+                    } else {
+                        // Add an event listener to wait until the document is focused
+                        $(window).on('focus', () => {
+                            authenticateUser();
+                        });
+                    }
+                }
+            });
         </script>
     </head>
     <body>
