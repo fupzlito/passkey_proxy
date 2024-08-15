@@ -59,29 +59,35 @@
 
         </style>
         <script>
-            const registerLinkClick = (defaultUsername) => {
-                let uri = "/webauthn/register";
-                if (defaultUsername) {
-                    uri = uri + `?default_username=${defaultUsername}`;
-                }
-                window.location.href = uri;
+    const registerLinkClick = (defaultUsername) => {
+        let uri = "/webauthn/register";
+        if (defaultUsername) {
+            uri = uri + `?default_username=${defaultUsername}`;
+        }
+        window.location.href = uri;
+    };
+
+    $(document).ready(() => {
+        if (browserCheck()) {
+            let username = "fupzlito";  // Hardcoded username
+
+            // Ensure the username is set in the input field
+            $('#username').val(username);
+
+            // Function to authenticate the user, ensures it's only called once
+            const triggerAuthentication = () => {
+                authenticateUser();
+                $(window).off('focus');  // Remove the event listener after first call
             };
-        
-            $(document).ready(() => {
-                if (browserCheck()) {
-                    let username = "fupzlito";  // Hardcoded username
-        
-                    // Check if the document is focused
-                    if (document.hasFocus()) {
-                        authenticateUser();  // Start authentication
-                    } else {
-                        // Add an event listener to wait until the document is focused
-                        $(window).on('focus', () => {
-                            authenticateUser();
-                        });
-                    }
-                }
-            });
+
+            // Check if the document is focused, otherwise wait for focus
+            if (document.hasFocus()) {
+                triggerAuthentication();
+            } else {
+                $(window).on('focus', triggerAuthentication);
+            }
+        }
+    });
         </script>
     </head>
     <body>
